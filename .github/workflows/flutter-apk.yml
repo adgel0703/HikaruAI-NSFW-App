@@ -7,10 +7,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    defaults:
-      run:
-        working-directory: .   # Flutterプロジェクトのルート（pubspec.yaml がある場所）
-
     steps:
     - uses: actions/checkout@v2
 
@@ -19,14 +15,21 @@ jobs:
       with:
         flutter-version: '3.22.0'
 
+    - name: Change to Flutter project directory
+      run: cd HikaruAI-NSFW-App
+
     - name: Install dependencies
-      run: flutter pub get
+      run: |
+        cd HikaruAI-NSFW-App
+        flutter pub get
 
     - name: Build APK
-      run: flutter build apk --release
+      run: |
+        cd HikaruAI-NSFW-App
+        flutter build apk --release
 
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
         name: HikaruAI-NSFW-App
-        path: build/app/outputs/flutter-apk/app-release.apk
+        path: HikaruAI-NSFW-App/build/app/outputs/flutter-apk/app-release.apk
